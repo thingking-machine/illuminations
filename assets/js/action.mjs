@@ -171,7 +171,7 @@ class MachineApp {
   };
   
   _handleInstructionsDownloadSave = async () => {
-    hideTokenPopup();
+    hideInstructionsPopup();
     try {
       const [fileHandle] = await window.showOpenFilePicker({
         types: [{
