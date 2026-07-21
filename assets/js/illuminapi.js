@@ -44,7 +44,7 @@ self.onmessage = async function(event) {
         // Merge default parameters, then incoming user parameters (which might override temp, max_tokens, etc.),
         const finalApiPayload = {
             ...defaultApiParameters,
-            messages: messagesForApi      // Ensure our carefully constructed messages array is used
+            input: messagesForApi      // Ensure our carefully constructed messages array is used
         };
         console.log('Worker: Here is the final API payload:', finalApiPayload);
 
