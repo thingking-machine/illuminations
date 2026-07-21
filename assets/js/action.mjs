@@ -502,51 +502,36 @@ class MachineApp {
   _processLlmResponse = (llmResponseData, originalCmjMessages) => {
     try {
       console.log('Worker task successful. LLM Response:', llmResponseData);
-      if (!llmResponseData || !llmResponseData.content || llmResponseData.content.length === 0) {
+      if (!llmResponseData) {
         throw new Error('LLM response is missing message content.');
       }
       
-      // const desoupedText = llmSoupToText(llmResponseData.content.trim());
-      //
-      // console.log('Regular text:', desoupedText);
+      const regularText = llmResponseData
+        .filter(item => item.type === 'message' && Array.isArray(item.content))
+        .flatMap(item =>
+          item.content
+            .filter(contentPart => contentPart && typeof contentPart.text === 'string')
+            .map(contentPart => contentPart.text)
+        )
+        .join(' ');
       
-      let rawContent = llmResponseData.content.trim();
-      let desoupedText = '';
-      let desoupedThoughts = '';
-      
-      // if (llmResponseData.reasoning_content) {
-      //   desoupedThoughts = llmSoupToText(llmResponseData.reasoning_content)  // No reasoning content
-      //   console.log('Thoughts text:', desoupedThoughts);
-      // }
-      const thinkStart = '<think>';
-      const thinkEnd = '</think>';
-      
-      if (rawContent.includes(thinkStart) && rawContent.includes(thinkEnd)) {
-        const startIndex = rawContent.indexOf(thinkStart);
-        const endIndex = rawContent.indexOf(thinkEnd);
-        
-        if (startIndex < endIndex) {
-          desoupedThoughts = rawContent.substring(startIndex + thinkStart.length, endIndex).trim();
-          desoupedText = rawContent.substring(endIndex + thinkEnd.length).trim();
-        } else {
-          desoupedText = rawContent;
-        }
-      } else {
-        desoupedText = rawContent;
-      }
-      
-      desoupedText = llmSoupToText(desoupedText);
-      if (desoupedThoughts) {
-        desoupedThoughts = llmSoupToText(desoupedThoughts);
-      } else if (llmResponseData.reasoning_content) {
-        desoupedThoughts = llmSoupToText(llmResponseData.reasoning_content);
-      }
-      
+      const desoupedText = llmSoupToText(regularText);
       console.log('Regular text:', desoupedText);
+      
+      const thoughtsText = llmResponseData
+        .filter(item => item.type === 'reasoning' && Array.isArray(item.summary))
+        .flatMap(item =>
+          item.summary
+            .filter(contentPart => contentPart && typeof contentPart.text === 'string')
+            .map(contentPart => contentPart.text)
+        )
+        .join('\n');
+      
+      const desoupedThoughts = llmSoupToText(thoughtsText);
       console.log('Thoughts text:', desoupedThoughts);
       
       const newCmjMessage = {
-        role: llmResponseData.role,
+        role: 'assistant',
         name: this.settings.machine.name,
         content: desoupedText
       };
@@ -559,11 +544,10 @@ class MachineApp {
       }
       
       localStorage.setItem('multilogue', updatedPlatoText);
+      localStorage.setItem('thoughts', desoupedThoughts);
+      
       this.updateDisplayState();
       console.log('Dialogue updated with LLM response.');
-      
-      localStorage.setItem('thoughts', desoupedThoughts);
-      console.log('Thoughts updated with LLM response.');
       
     } catch (processingError) {
       console.error('Error processing LLM response:', processingError);
