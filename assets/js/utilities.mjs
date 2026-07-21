@@ -1,3 +1,28 @@
+function _extractSpeakerAndUtterance(paragraphElement) {
+  const speakerSpan = paragraphElement.querySelector('span.speaker');
+  if (!speakerSpan) return null;
+  
+  const speaker = speakerSpan.textContent.trim();
+  
+  const rawHtmlOfP = paragraphElement.innerHTML;
+  const speakerSpanHtml = speakerSpan.outerHTML;
+  const speakerSpanEndIndex = rawHtmlOfP.indexOf(speakerSpanHtml) + speakerSpanHtml.length;
+  let utteranceHtml = rawHtmlOfP.substring(speakerSpanEndIndex);
+  
+  if (utteranceHtml.startsWith(' ')) {
+    utteranceHtml = utteranceHtml.substring(1);
+  }
+  
+  let processedUtterance = utteranceHtml.replace(/<br\s*\/?>\s*&emsp;/gi, '\n\t');
+  processedUtterance = processedUtterance.replace(/<br\s*\/?>/gi, '\n');
+  
+  const decoder = document.createElement('div');
+  decoder.innerHTML = processedUtterance;
+  const finalUtterance = decoder.textContent.trim();
+  
+  return { speaker, utterance: finalUtterance };
+}
+
 /**
  * Transforms platoHtml format to CMJ format using the helper.
  * @param {string} platoHtml - The platoHtml formatted string.
