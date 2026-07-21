@@ -107,6 +107,7 @@ class MachineApp {
       tokenPopupCancelButton: document.getElementById('tokenPopupCancelButton'),
       instructionsPopupSaveButton: document.getElementById('instructionsPopupSaveButton'),
       instructionsPopupCancelButton: document.getElementById('instructionsPopupCancelButton'),
+      instructionsPopupFileButton: document.getElementById('instructionsPopupFileButton'),
       loadingOverlay: document.getElementById('loading-overlay'),
       tokenPopupInput: document.getElementById('tokenPopupInput'),
       instructionsPopupInput: document.getElementById('instructionsPopupInput')
@@ -159,11 +160,12 @@ class MachineApp {
     const instructionsInputVal = this.elements.instructionsPopupInput.value;
     if (instructionsInputVal && instructionsInputVal.trim()) {
       this.settings.llm.instructions = instructionsInputVal.trim();
-      console.log('instructions set manually via pop-up.');
+      console.log('instructions have been set manually via pop-up.');
       hideInstructionsPopup();
       this.runLlm(); // Optionally, re-trigger the LLM run after getting the token
     } else {
-      alert('Please pick the instructions file');
+      console.log('instructions text is empty');
+      // alert('Please pick the instructions file');
     }
   };
   
@@ -395,6 +397,9 @@ class MachineApp {
         return true;
       } catch (fetchError2) {
         console.error('Instructions fetch from debug server failed:', fetchError.message);
+        // if the instructions have been received and saved - abort
+        if (this.settings.llm.instructions) return true;
+        // otherwise show popup and wait for them
         showInstructionsPopup(); // Show pop-up to ask for token
         return false; // Indicate that we couldn't get a token
       }

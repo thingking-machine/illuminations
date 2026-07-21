@@ -28,6 +28,7 @@ title: Thingking
         <input type="text" id="instructionsPopupInput" placeholder="Paste your instructions here, they will be used until the end of this session...">
         <div style="margin-top: 10px;">
             <button id="instructionsPopupSaveButton" style="margin-right: 10px;">Use these instructions</button>
+            <button id="instructionsPopupFileButton" style="margin-right: 10px;">File</button>
             <button id="instructionsPopupCancelButton">Cancel</button>
         </div>
     </div>
