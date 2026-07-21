@@ -191,7 +191,7 @@ class MachineApp {
     if (fileContent && fileContent.trim()) {
       this.settings.llm.instructions = fileContent.trim();
       console.log('instructions have been downloaded from file');
-      this.runLlm(); // Optionally, re-trigger the LLM run after getting the token
+      this.runLlm(); // re-trigger the LLM run after getting the instructions
     } else {
       console.log('instructions text is empty');
     }
