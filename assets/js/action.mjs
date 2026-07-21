@@ -127,6 +127,7 @@ class MachineApp {
     this.elements.tokenPopupCancelButton.addEventListener('click', hideTokenPopup);
     this.elements.instructionsPopupSaveButton.addEventListener('click', this._handleInstructionsSave);
     this.elements.instructionsPopupCancelButton.addEventListener('click', hideInstructionsPopup);
+    this.elements.instructionsPopupFileButton.addEventListener('click', this._handleInstructionsDownloadSave);
     this.elements.chooseFileButton.addEventListener('click', this._handleFilePick);
     this.elements.dialogueWrapper.addEventListener('click', this.switchToEditMode);
     this.elements.textarea.addEventListener('keydown', this._handleEditorSave);
@@ -165,7 +166,34 @@ class MachineApp {
       this.runLlm(); // Optionally, re-trigger the LLM run after getting the token
     } else {
       console.log('instructions text is empty');
-      // alert('Please pick the instructions file');
+      this._handleInstructionsDownloadSave()
+    }
+  };
+  
+  _handleInstructionsDownloadSave = async () => {
+    hideTokenPopup();
+    try {
+      const [fileHandle] = await window.showOpenFilePicker({
+        types: [{
+          description: 'Text Files',
+          accept: { 'text/plain': ['.txt', '.md', '.text'] },
+        }]
+      });
+      const file = await fileHandle.getFile();
+      const fileContent = await file.text();
+      
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        console.error('Error opening file:', err);
+        alert(`Error opening file: ${err.message}`);
+      }
+    }
+    if (fileContent && fileContent.trim()) {
+      this.settings.llm.instructions = fileContent.trim();
+      console.log('instructions have been downloaded from file');
+      this.runLlm(); // Optionally, re-trigger the LLM run after getting the token
+    } else {
+      console.log('instructions text is empty');
     }
   };
   
