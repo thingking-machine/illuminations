@@ -121,6 +121,8 @@ class MachineApp {
   _attachEventListeners() {
     this.elements.tokenPopupSaveButton.addEventListener('click', this._handleTokenSave);
     this.elements.tokenPopupCancelButton.addEventListener('click', hideTokenPopup);
+    this.elements.tokenPopupSaveButton.addEventListener('click', this._handleInstructionsSave);
+    this.elements.tokenPopupCancelButton.addEventListener('click', hideInstructionsPopup);
     this.elements.chooseFileButton.addEventListener('click', this._handleFilePick);
     this.elements.dialogueWrapper.addEventListener('click', this.switchToEditMode);
     this.elements.textarea.addEventListener('keydown', this._handleEditorSave);
