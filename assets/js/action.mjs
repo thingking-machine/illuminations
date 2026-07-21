@@ -359,38 +359,38 @@ class MachineApp {
   };
   
   _ensureInstructions = async () => {
-    if (this.settings.llm.instructions) return true;
+    // if (this.settings.llm.instructions) return true;
     
     try {
-      const tokenResponse = await fetch(this.settings.machine.server + '/token/' + this.settings.machine.token, {mode: "cors"});
-      if (!tokenResponse.ok) {
-        throw new Error(`Server responded with status: ${tokenResponse.status}`);
+      const instructionsResponse = await fetch(this.settings.machine.server + '/' + this.settings.machine.instructions_file, {mode: "cors"});
+      if (!instructionsResponse.ok) {
+        throw new Error(`Server responded with status: ${instructionsResponse.status}`);
       }
-      const fetchedToken = (await tokenResponse.text()).trim();
-      if (!fetchedToken) {
-        throw new Error("Fetched token is empty.");
+      const fetchedInstructions = (await instructionsResponse.text()).trim();
+      if (!fetchedInstructions) {
+        throw new Error("Fetched instructions text is empty.");
       }
-      this.settings.llm.token = fetchedToken;
-      console.log('Token fetched successfully from server.');
+      this.settings.llm.instructions = fetchedInstructions;
+      console.log('Instructions fetched successfully from the server.');
       return true;
     } catch (fetchError) {
       // Is it because of the debug on the local server?
       try {
-        const tokenResponse = await fetch('https://localhost:8443/token/' + this.settings.machine.token, {mode: "cors"});
-        if (!tokenResponse.ok) {
-          throw new Error(`Server responded with status: ${tokenResponse.status}`);
+        const instructionsResponse = await fetch('https://localhost:8443/' + this.settings.machine.instructions_file, {mode: "cors"});
+        if (!instructionsResponse.ok) {
+          throw new Error(`Server responded with status: ${instructionsResponse.status}`);
         }
-        const fetchedToken = (await tokenResponse.text()).trim();
-        if (!fetchedToken) {
-          throw new Error("Fetched token is empty.");
+        const fetchedInstructions = (await instructionsResponse.text()).trim();
+        if (!fetchedInstructions) {
+          throw new Error("Fetched instructions text is empty.");
         }
-        this.settings.llm.token = fetchedToken;
+        this.settings.llm.instructions = fetchedInstructions;
         this.settings.machine.server = 'https://localhost:8443'
-        console.log(`Token fetched successfully from the debug server; server URL updated to ${this.settings.machine.server}`);
+        console.log(`Instructions fetched successfully from the debug server; server URL updated to ${this.settings.machine.server}`);
         return true;
       } catch (fetchError2) {
-        console.error('Token fetch failed:', fetchError.message);
-        showTokenPopup(); // Show pop-up to ask for token
+        console.error('Instructions fetch from debug server failed:', fetchError.message);
+        showInstructionsPopup(); // Show pop-up to ask for token
         return false; // Indicate that we couldn't get a token
       }
     }
