@@ -109,6 +109,7 @@ class MachineApp {
       instructionsPopupCancelButton: document.getElementById('instructionsPopupCancelButton'),
       loadingOverlay: document.getElementById('loading-overlay'),
       tokenPopupInput: document.getElementById('tokenPopupInput'),
+      instructionsPopupInput: document.getElementById('instructionsPopupInput')
     };
     
     // Make the dialogue wrapper programmatically focusable
