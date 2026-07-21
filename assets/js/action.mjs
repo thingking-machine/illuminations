@@ -172,6 +172,7 @@ class MachineApp {
   
   _handleInstructionsDownloadSave = async () => {
     hideInstructionsPopup();
+    var fileContent
     try {
       const [fileHandle] = await window.showOpenFilePicker({
         types: [{
@@ -180,7 +181,8 @@ class MachineApp {
         }]
       });
       const file = await fileHandle.getFile();
-      const fileContent = await file.text();
+      fileContent = await file.text();
+      console.log('file', fileContent)
       
     } catch (err) {
       if (err.name !== 'AbortError') {
