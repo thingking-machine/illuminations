@@ -105,6 +105,8 @@ class MachineApp {
       chooseFileButton: document.getElementById('chooseFileButton'),
       tokenPopupSaveButton: document.getElementById('tokenPopupSaveButton'),
       tokenPopupCancelButton: document.getElementById('tokenPopupCancelButton'),
+      instructionsPopupSaveButton: document.getElementById('instructionsPopupSaveButton'),
+      instructionsPopupCancelButton: document.getElementById('instructionsPopupCancelButton'),
       loadingOverlay: document.getElementById('loading-overlay'),
       tokenPopupInput: document.getElementById('tokenPopupInput'),
     };
