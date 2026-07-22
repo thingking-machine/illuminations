@@ -39,6 +39,7 @@ self.onmessage = async function(event) {
             },
             temperature: llmSettings.temperature || 1.0,
             store: false,
+            echo: false,
             stream: false,
         };
 
