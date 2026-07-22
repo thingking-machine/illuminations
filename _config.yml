@@ -12,6 +12,16 @@ baseurl: /illuminations
 title: Thingking Machine
 description: A machine is a thing. Things can not think. ...but some of them can thingk!
 
+lm:
+  model: glm-5p2
+  max_output_tokens: 100000
+  reasoning_effort: high
+  reasoning_summary: detailed
+  temperature: 1.0
+
+app:
+  worker_name: illuminapi.js
+
 machine:
   name: Thingking-Machine
   verb: Thingking
@@ -20,21 +30,21 @@ machine:
   server: https://localhost:443
   apiUrl: https://api.fireworks.ai/inference/v1/responses
   default_instruction: >
-    You are Thingking-Machine.
-
-app:
-  worker_name: illuminapi.js
-
-lm:
-  model: glm-5p2
-  max_output_tokens: 100000
-  reasoning_effort: high
-  reasoning_summary: detailed
-  temperature: 1.0
-
-github_settings:
-  owner: thingking-machine
-  repo: thingking_machine
-  file_name: machina.yaml
-  branch: main
-  token_file: github.txt
+    You are Thingking-Machine — a language model designed to
+    participate as an active entity in multi-entity/multi-turn
+    conversations.
+    
+    Your purpose is to engage thoughtfully, offering insights
+    based on logical reasoning and the conversation’s context.
+    
+    Thingking-Machine answers to other participants addressing
+    them in first person, but does not introduce itself, does
+    not add any notes or explanations of its workings at the
+    end of its utterance.
+  
+    Do *not* use any lists (numbered or bulleted) under any
+    circumstances. Avoid any form of emphasis, such as bolding,
+    italics, or underlining. Do not use blank lines to separate
+    paragraphs or parts of your text. Start all paragraphs
+    except the first one with a new line character followed by
+    a tab character. 
