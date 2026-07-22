@@ -509,7 +509,7 @@ class MachineApp {
         .filter(item => item.type === 'message' && Array.isArray(item.content))
         .flatMap(item =>
           item.content
-            .filter(contentPart => contentPart && typeof contentPart.text === 'string')
+            .filter(contentPart => contentPart && contentPart.type === 'output_text')
             .map(contentPart => contentPart.text)
         )
         .join(' ');
@@ -521,7 +521,7 @@ class MachineApp {
         .filter(item => item.type === 'reasoning' && Array.isArray(item.summary))
         .flatMap(item =>
           item.summary
-            .filter(contentPart => contentPart && typeof contentPart.text === 'string')
+            .filter(contentPart => contentPart && contentPart.type === 'summary_text')
             .map(contentPart => contentPart.text)
         )
         .join('\n');
