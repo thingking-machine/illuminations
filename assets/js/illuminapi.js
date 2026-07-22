@@ -38,6 +38,7 @@ self.onmessage = async function(event) {
                 "effort": llmSettings.reasoning_effort || "high",
             },
             temperature: llmSettings.temperature || 1.0,
+            store: false,
             stream: false,
         };
 
