@@ -19,6 +19,8 @@ machine:
   token: fireworks
   server: https://localhost:443
   apiUrl: https://api.fireworks.ai/inference/v1/responses
+  default_instruction: >
+    You are Thingking-Machine.
 
 app:
   worker_name: illuminapi.js

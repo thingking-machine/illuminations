@@ -1,8 +1,8 @@
-export function showInstructionsPopup() {
+export function showInstructionsPopup(text) {
   const popup = document.getElementById('instructionsPopupOverlay');
   const input = document.getElementById('instructionsPopupInput');
   if (popup && input) {
-    input.value = '';
+    input.value = text;
     popup.style.display = 'flex';
     input.focus();
   } else {

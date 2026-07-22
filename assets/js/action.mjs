@@ -430,7 +430,7 @@ class MachineApp {
         // if the instructions have been received and saved - abort
         if (this.settings.llm.instructions) return true;
         // otherwise show popup and wait for them
-        showInstructionsPopup(); // Show pop-up to ask for token
+        showInstructionsPopup(this.settings.machine.default_instruction); // Show pop-up to ask for instructions
         return false; // Indicate that we couldn't get a token
       }
     }
