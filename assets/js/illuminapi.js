@@ -31,8 +31,8 @@ self.onmessage = async function(event) {
 
         // --- 4. Prepare the final API payload ---
         const defaultApiParameters = {
-            model: llmSettings.model || machineConfig.llm,
-            instructions: llmSettings.instructions,
+            model: llmSettings.model,
+            instructions: machineConfig.instructions,
             max_output_tokens: llmSettings.max_output_tokens || 100000,
             reasoning: {
                 "effort": llmSettings.reasoning_effort || "high",

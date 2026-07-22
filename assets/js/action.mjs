@@ -54,7 +54,6 @@ class MachineApp {
   _parseSettings() {
     this.settings = {
       machine: JSON.parse(this.configElement.dataset.machineSettings),
-      github: JSON.parse(this.configElement.dataset.githubSettings),
       llm: JSON.parse(this.configElement.dataset.lmSettings),
       app: JSON.parse(this.configElement.dataset.appSettings),
       workerUrl: this.configElement.dataset.workerUrl,
@@ -160,7 +159,7 @@ class MachineApp {
   _handleInstructionsSave = () => {
     const instructionsInputVal = this.elements.instructionsPopupInput.value;
     if (instructionsInputVal && instructionsInputVal.trim()) {
-      this.settings.llm.instructions = instructionsInputVal.trim();
+      this.settings.machine.instructions = instructionsInputVal.trim();
       console.log('instructions have been set manually via pop-up.');
       hideInstructionsPopup();
       this.runLlm(); // Optionally, re-trigger the LLM run after getting the token
@@ -191,7 +190,7 @@ class MachineApp {
       }
     }
     if (fileContent && fileContent.trim()) {
-      this.settings.llm.instructions = fileContent.trim();
+      this.settings.machine.instructions = fileContent.trim();
       console.log('instructions have been downloaded from file');
       this.runLlm(); // re-trigger the LLM run after getting the instructions
     } else {
@@ -396,7 +395,7 @@ class MachineApp {
   };
   
   _ensureInstructions = async () => {
-    // if (this.settings.llm.instructions) return true;
+    // if (this.settings.machine.instructions) return true;
     
     try {
       const instructionsResponse = await fetch(this.settings.machine.server + '/' + this.settings.machine.instructions_file, {mode: "cors"});
@@ -407,7 +406,7 @@ class MachineApp {
       if (!fetchedInstructions) {
         throw new Error("Fetched instructions text is empty.");
       }
-      this.settings.llm.instructions = fetchedInstructions;
+      this.settings.machine.instructions = fetchedInstructions;
       console.log('Instructions fetched successfully from the server.');
       return true;
     } catch (fetchError) {
@@ -421,14 +420,14 @@ class MachineApp {
         if (!fetchedInstructions) {
           throw new Error("Fetched instructions text is empty.");
         }
-        this.settings.llm.instructions = fetchedInstructions;
+        this.settings.machine.instructions = fetchedInstructions;
         this.settings.machine.server = 'https://localhost:8443'
         console.log(`Instructions fetched successfully from the debug server; server URL updated to ${this.settings.machine.server}`);
         return true;
       } catch (fetchError2) {
         console.error('Instructions fetch from debug server failed:', fetchError.message);
         // if the instructions have been received and saved - abort
-        if (this.settings.llm.instructions) return true;
+        if (this.settings.machine.instructions) return true;
         // otherwise show popup and wait for them
         showInstructionsPopup(this.settings.machine.default_instruction); // Show pop-up to ask for instructions
         return false; // Indicate that we couldn't get a token
