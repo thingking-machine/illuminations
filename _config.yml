@@ -29,7 +29,7 @@ machine:
   token: fireworks
   server: https://localhost:443
   apiUrl: https://api.fireworks.ai/inference/v1/responses
-  default_instruction: >
+  default_instruction: >-
     You are Thingking-Machine — a language model designed to
     participate as an active entity in multi-entity/multi-turn
     conversations.

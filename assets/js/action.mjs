@@ -104,11 +104,11 @@ class MachineApp {
       chooseFileButton: document.getElementById('chooseFileButton'),
       tokenPopupSaveButton: document.getElementById('tokenPopupSaveButton'),
       tokenPopupCancelButton: document.getElementById('tokenPopupCancelButton'),
+      loadingOverlay: document.getElementById('loading-overlay'),
+      tokenPopupInput: document.getElementById('tokenPopupInput'),
       instructionsPopupSaveButton: document.getElementById('instructionsPopupSaveButton'),
       instructionsPopupCancelButton: document.getElementById('instructionsPopupCancelButton'),
       instructionsPopupFileButton: document.getElementById('instructionsPopupFileButton'),
-      loadingOverlay: document.getElementById('loading-overlay'),
-      tokenPopupInput: document.getElementById('tokenPopupInput'),
       instructionsPopupInput: document.getElementById('instructionsPopupInput')
     };
     
@@ -134,6 +134,7 @@ class MachineApp {
     
     // Listen for custom events and browser events
     window.addEventListener('localStorageChanged', this.updateDisplayState);
+    window.addEventListener('localStorageUpdated', this.updateDisplayState);
     window.addEventListener('runMachineCommand', this.runLlm);
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'visible') {
